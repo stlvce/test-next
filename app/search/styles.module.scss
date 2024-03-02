@@ -1,0 +1,17 @@
+@import "../variables.module";
+
+.searchPage {
+  display: flex;
+}
+
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.card {
+  @include card;
+}
