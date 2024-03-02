@@ -1,25 +1,36 @@
-import Link from "next/link";
+import CustomLink from "@/components/atoms/CustomLink/CustomLink";
 import styles from "./styles.module.scss";
+
+const links = [
+  {
+    href: "/create",
+    label: "Создание",
+  },
+  {
+    href: "/update",
+    label: "Изменение",
+  },
+  {
+    href: "/delete",
+    label: "Удаление",
+  },
+  {
+    href: "/view",
+    label: "Просмотр",
+  },
+  {
+    href: "/search",
+    label: "Поиск",
+  },
+];
 
 export default function Header() {
   return (
     <header className={styles.header}>
       <ul className={styles.nav}>
-        <li>
-          <Link href="/create">Создание</Link>
-        </li>
-        <li>
-          <Link href="/update">Обновление</Link>
-        </li>
-        <li>
-          <Link href="/delete">Удаление</Link>
-        </li>
-        <li>
-          <Link href="/view">Просмотр</Link>
-        </li>
-        <li>
-          <Link href="/search">Поиск</Link>
-        </li>
+        {links.map((link) => (
+          <CustomLink href={link.href} label={link.label} key={link.href} />
+        ))}
       </ul>
     </header>
   );

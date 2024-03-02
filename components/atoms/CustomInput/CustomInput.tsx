@@ -16,7 +16,7 @@ export default function CustomInput({
   ...props
 }: PropsTypes) {
   return (
-    <Form.Group className="mb-3" key={varName}>
+    <Form.Group className="mb-3">
       <Form.Label>{label}</Form.Label>
       <Form.Control
         type={inputType}
