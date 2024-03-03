@@ -1,15 +1,9 @@
 import CustomCard from "@/components/molecules/CustomCard/CustomCard";
+import { ICar } from "@/types/types";
 import styles from "./styles.module.scss";
 
-type PostData = {
-  id: number;
-  userId: number;
-  title: string;
-  body: string;
-};
-
-async function getData(): Promise<PostData[]> {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+async function getCars(): Promise<ICar[]> {
+  const res = await fetch(`http://localhost:3000/api`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -19,12 +13,12 @@ async function getData(): Promise<PostData[]> {
 }
 
 export default async function ViewPage() {
-  const data = await getData();
+  const cars: ICar[] = await getCars();
 
   return (
     <div className={styles.grid}>
-      {data.map((item: PostData) => (
-        <CustomCard title={item.title} body={item.body} key={item.id} />
+      {cars.map((car: ICar) => (
+        <CustomCard {...car} key={car.id} />
       ))}
     </div>
   );

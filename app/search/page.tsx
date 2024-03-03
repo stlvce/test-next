@@ -2,15 +2,9 @@ import SearchForm from "@/components/molecules/FilterForm/FilterForm";
 import { makeStore } from "@/store";
 import { ICar } from "@/types/types";
 import styles from "./styles.module.scss";
+import CustomCard from "@/components/molecules/CustomCard/CustomCard";
 
-type PostData = {
-  id: number;
-  userId: number;
-  title: string;
-  body: string;
-};
-
-async function getData(searchParams: any): Promise<ICar[]> {
+async function getCars(searchParams: any): Promise<ICar[]> {
   const state = makeStore().getState();
   let queryParams = "?";
 
@@ -18,7 +12,9 @@ async function getData(searchParams: any): Promise<ICar[]> {
     queryParams += `${key}=${value}&`;
   }
 
-  const res = await fetch(`${process.env.URL}/api${queryParams}`);
+  const res = await fetch(
+    `${process.env.URL ?? "http://localhost:3000"}/api${queryParams}`,
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -27,21 +23,26 @@ async function getData(searchParams: any): Promise<ICar[]> {
   return res.json();
 }
 
-export default async function SearchPage({ searchParams }: any) {
-  const data = await getData(searchParams);
+type Props = {
+  searchParams: {
+    brand?: string;
+    model?: string;
+    productionYear?: string;
+    body?: string;
+    id?: string;
+  };
+};
+
+export default async function SearchPage({ searchParams }: Props) {
+  const cars: ICar[] = await getCars(searchParams);
   const refreshData = () => {};
 
   return (
     <div className={styles.searchPage}>
       <SearchForm searchParams={searchParams} />
       <div className={styles.container}>
-        {data.map((item: ICar) => (
-          <div className={styles.card} key={item.id}>
-            <p>ID: {item.id}</p>
-            <p>Название: {item.name}</p>
-            <p>Марка: {item.technical_characteristics?.brand}</p>
-            <p>Модель: {item.technical_characteristics?.model}</p>
-          </div>
+        {cars.map((car: ICar) => (
+          <CustomCard {...car} key={car.id} />
         ))}
       </div>
     </div>

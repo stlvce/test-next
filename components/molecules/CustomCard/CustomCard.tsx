@@ -1,15 +1,17 @@
 import styles from "./styles.module.scss";
+import { ICar } from "@/types/types";
 
-type Props = {
-  title: string;
-  body: string;
-};
-
-export default function CustomCard({ title, body }: Props) {
+export default function CustomCard({
+  id,
+  name,
+  technical_characteristics,
+}: ICar) {
   return (
     <div className={styles.card}>
-      <h5 className={styles.card__title}>{title}</h5>
-      <p className={styles.card__body}>{body}</p>
+      <p>ID: {id}</p>
+      <p>Название: {name}</p>
+      <p>Марка: {technical_characteristics?.brand}</p>
+      <p>Модель: {technical_characteristics?.model}</p>
     </div>
   );
 }
